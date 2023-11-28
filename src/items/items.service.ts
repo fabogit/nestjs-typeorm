@@ -1,11 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { EntityManager } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { Item } from './entities/item.entity';
 
 @Injectable()
 export class ItemsService {
-  create(createItemDto: CreateItemDto) {
-    return 'This action adds a new item';
+  constructor(private readonly entityManager: EntityManager) {}
+
+  async create(createItemDto: CreateItemDto) {
+    const item = new Item(createItemDto);
+    await this.entityManager.save(item);
+    // return item if need to show the created item
   }
 
   findAll() {
