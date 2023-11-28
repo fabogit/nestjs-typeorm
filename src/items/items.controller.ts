@@ -36,7 +36,7 @@ export class ItemsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.itemsService.remove(+id);
   }
 }

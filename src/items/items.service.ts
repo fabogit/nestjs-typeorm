@@ -16,7 +16,8 @@ export class ItemsService {
   async create(createItemDto: CreateItemDto) {
     const item = new Item(createItemDto);
     await this.entityManager.save(item);
-    // return item if need to show the created item
+    // show the created item if needed
+    // return this.entityManager.save(item);
   }
 
   async findAll() {
@@ -33,7 +34,9 @@ export class ItemsService {
     await this.entityManager.save(item);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} item`;
+  async remove(id: number) {
+    await this.itemsRepository.delete(id);
+    // return delete operation result
+    // return this.itemsRepository.delete(id);
   }
 }
