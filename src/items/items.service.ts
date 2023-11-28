@@ -23,8 +23,8 @@ export class ItemsService {
     return this.itemsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} item`;
+  async findOne(id: number) {
+    return this.itemsRepository.findOneBy({ id });
   }
 
   update(id: number, updateItemDto: UpdateItemDto) {
