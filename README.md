@@ -29,7 +29,7 @@
 ## Installation
 
 ```bash
-$ npm install
+$ nvm use && npm i
 ```
 
 ## Running the app
@@ -56,6 +56,19 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+```
+
+## Migrations
+
+```bash
+# create an INIT migration
+$ npm run typeorm:create-migration --name=INIT
+
+# run up migrations
+$ npm run typeorm:run-migrations
+
+# run down migrations
+$ npm run typeorm:revert-migrations
 ```
 
 ## Support
