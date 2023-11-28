@@ -13,7 +13,12 @@ export class PublicItems1701213225278 implements MigrationInterface {
     );
   }
 
-  public async down(): Promise<void> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     this.logger.log('DOWN');
+    await queryRunner.query(
+      `UPDATE item SET public = 0`,
+      //   parameters,
+      //   useStructuredResult,
+    );
   }
 }
