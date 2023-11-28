@@ -1,12 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Item } from './entities/item.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ItemsService {
-  constructor(private readonly entityManager: EntityManager) {}
+  constructor(
+    @InjectRepository(Item)
+    private readonly itemsRepository: Repository<Item>,
+    private readonly entityManager: EntityManager,
+  ) {}
 
   async create(createItemDto: CreateItemDto) {
     const item = new Item(createItemDto);
@@ -14,8 +19,8 @@ export class ItemsService {
     // return item if need to show the created item
   }
 
-  findAll() {
-    return `This action returns all items`;
+  async findAll() {
+    return this.itemsRepository.find();
   }
 
   findOne(id: number) {

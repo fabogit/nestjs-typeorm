@@ -21,7 +21,7 @@ export class ItemsController {
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.itemsService.findAll();
   }
 
