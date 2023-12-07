@@ -50,13 +50,33 @@ export class ItemsService {
   }
 
   async update(id: number, updateItemDto: UpdateItemDto) {
-    const item = await this.itemsRepository.findOneBy({ id });
-    item.public = updateItemDto.public;
-    const comments = updateItemDto.comments.map(
-      (createCommentDto) => new Comment(createCommentDto),
-    );
-    item.comments = comments;
-    await this.entityManager.save(item);
+    // Single transaction code
+    // const item = await this.itemsRepository.findOneBy({ id });
+    // item.public = updateItemDto.public;
+    // const comments = updateItemDto.comments.map(
+    //   (createCommentDto) => new Comment(createCommentDto),
+    // );
+    // item.comments = comments;
+    // await this.entityManager.save(item);
+
+    // async transactions to rollback in case of any error
+
+    await this.entityManager.transaction(async (entityManager) => {
+      const item = await this.itemsRepository.findOneBy({ id });
+      item.public = updateItemDto.public;
+      const comments = updateItemDto.comments.map(
+        (createCommentDto) => new Comment(createCommentDto),
+      );
+      item.comments = comments;
+      // 1st transaction
+      await entityManager.save(item);
+      const tagContent = `${Math.random()}`;
+      const tag = new Tag({ content: tagContent });
+      // FORCE AN ERROR
+      // throw new Error('Error! Rolled back all Transactions');
+      // 2nd transaction
+      await entityManager.save(tag);
+    });
   }
 
   async remove(id: number) {
