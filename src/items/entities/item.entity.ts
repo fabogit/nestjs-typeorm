@@ -21,6 +21,15 @@ export class Item extends AbstractEntity<Item> {
   @Column({ default: true })
   public: boolean;
 
+  @Column({ default: 'This will be hidden', select: false })
+  secret: string;
+  // hidden field will be accessible using query builder:
+  // const posts = await connection.createQueryBuilder(Post, "post")
+  // .select("post.id")
+  // .addSelect("category.name")
+  // .leftJoinAndSelect("post.category", "category")
+  // .getMany();
+
   @OneToOne(() => Listing, { cascade: true })
   @JoinColumn()
   listing: Listing;
