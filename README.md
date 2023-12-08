@@ -28,8 +28,24 @@
 
 ## Installation
 
+Set node version (from .nvmrc) and install packages
+
 ```bash
 $ nvm use && npm i
+```
+
+Start database container
+
+```bash
+$ docker-compose up
+```
+
+set up mysql to have a database named as the env variable `MYSQL_DATABASE`
+
+Stop docker container
+
+```bash
+$ docker-compose down
 ```
 
 ## Running the app
