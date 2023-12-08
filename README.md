@@ -56,6 +56,9 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+
+# test item service
+$ npm test items.service
 ```
 
 ## Migrations
