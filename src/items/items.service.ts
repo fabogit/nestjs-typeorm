@@ -64,10 +64,13 @@ export class ItemsService {
     await this.entityManager.transaction(async (entityManager) => {
       const item = await this.itemsRepository.findOneBy({ id });
       item.public = updateItemDto.public;
-      const comments = updateItemDto.comments.map(
-        (createCommentDto) => new Comment(createCommentDto),
-      );
-      item.comments = comments;
+
+      if (updateItemDto.comments) {
+        const comments = updateItemDto.comments.map(
+          (createCommentDto) => new Comment(createCommentDto),
+        );
+        item.comments = comments;
+      }
       // 1st transaction
       await entityManager.save(item);
       const tagContent = `${Math.random()}`;
